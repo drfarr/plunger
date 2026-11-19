@@ -40,16 +40,35 @@ struct RunsResponse: Decodable { let workflow_runs: [Run] }
 enum State: Int, Comparable {
     case neutral, success, queued, running, attention, failure
     static func < (a: State, b: State) -> Bool { a.rawValue < b.rawValue }
-    var dot: String {
+    var color: NSColor {
         switch self {
-        case .success: "🟢"
-        case .failure: "🔴"
-        case .running: "🟡"
-        case .queued: "⏳"
-        case .attention: "🟠"
-        case .neutral: "⚪️"
+        case .success: .systemGreen
+        case .failure: .systemRed
+        case .running, .queued: .systemYellow
+        case .attention: .systemOrange
+        case .neutral: .systemGray
         }
     }
+    var symbol: String {
+        switch self {
+        case .success: "checkmark.circle.fill"
+        case .failure: "xmark.circle.fill"
+        case .running: "arrow.triangle.2.circlepath.circle.fill"
+        case .queued: "clock.fill"
+        case .attention: "exclamationmark.circle.fill"
+        case .neutral: "minus.circle.fill"
+        }
+    }
+    /// Coloured SF Symbol (not a template, so it keeps its colour in menus and the menu bar).
+    func icon(size: CGFloat = 13) -> NSImage? { symbolImage(symbol, color, size: size) }
+}
+
+func symbolImage(_ name: String, _ color: NSColor, size: CGFloat = 13) -> NSImage? {
+    let config = NSImage.SymbolConfiguration(pointSize: size, weight: .medium)
+        .applying(NSImage.SymbolConfiguration(paletteColors: [color]))
+    let img = NSImage(systemSymbolName: name, accessibilityDescription: nil)?.withSymbolConfiguration(config)
+    img?.isTemplate = false
+    return img
 }
 
 struct RepoStatus {
@@ -197,22 +216,12 @@ final class AppDelegate: NSObject, NSApplicationDelegate, NSMenuDelegate {
     }
 
     private func setIcon(_ state: State, running: Int) {
-        let color: NSColor = switch state {
-        case .success: .systemGreen
-        case .failure: .systemRed
-        case .running, .queued: .systemYellow
-        case .attention: .systemOrange
-        case .neutral: .secondaryLabelColor
-        }
-        let title = NSMutableAttributedString(string: "●", attributes: [
-            .foregroundColor: color, .font: NSFont.systemFont(ofSize: 13),
-        ])
-        if running > 0 {
-            title.append(NSAttributedString(string: " \(running)", attributes: [
-                .font: NSFont.monospacedDigitSystemFont(ofSize: 12, weight: .medium),
-            ]))
-        }
-        item.button?.attributedTitle = title
+        guard let button = item.button else { return }
+        button.image = state.icon(size: 14)
+        button.imagePosition = running > 0 ? .imageLeading : .imageOnly
+        button.attributedTitle = NSAttributedString(
+            string: running > 0 ? " \(running)" : "",
+            attributes: [.font: NSFont.monospacedDigitSystemFont(ofSize: 12, weight: .medium)])
         item.button?.toolTip = "GitHub Actions"
     }
 
@@ -222,7 +231,8 @@ final class AppDelegate: NSObject, NSApplicationDelegate, NSMenuDelegate {
         rel.unitsStyle = .abbreviated
 
         if let err = lastError {
-            let e = NSMenuItem(title: "⚠️ \(err.prefix(80))", action: nil, keyEquivalent: "")
+            let e = NSMenuItem(title: String(err.prefix(80)), action: nil, keyEquivalent: "")
+            e.image = symbolImage("exclamationmark.triangle.fill", .systemOrange)
             e.isEnabled = false
             menu.addItem(e)
             menu.addItem(.separator())
@@ -239,15 +249,17 @@ final class AppDelegate: NSObject, NSApplicationDelegate, NSMenuDelegate {
         let ordered = repos.filter { $0.state >= .running } + repos.filter { $0.state < .running }
         for repo in ordered {
             let when = rel.localizedString(for: repo.latest, relativeTo: Date())
-            let top = NSMenuItem(title: "\(repo.state.dot)  \(repo.name)  ·  \(when)", action: nil, keyEquivalent: "")
+            let top = NSMenuItem(title: "\(repo.name)  ·  \(when)", action: nil, keyEquivalent: "")
+            top.image = repo.state.icon()
             let sub = NSMenu()
             sub.addItem(link("Open Actions ↗", "https://github.com/\(repo.name)/actions"))
             sub.addItem(.separator())
             for run in repo.runs {
                 let ago = rel.localizedString(for: run.updated, relativeTo: Date())
                 let branch = run.head_branch.map { " · \($0)" } ?? ""
-                let title = "\(run.state.dot)  \(run.name ?? "workflow")\(branch)  ·  \(ago)"
+                let title = "\(run.name ?? "workflow")\(branch)  ·  \(ago)"
                 let mi = link(title, run.html_url)
+                mi.image = run.state.icon()
                 mi.toolTip = run.display_title
                 sub.addItem(mi)
             }

@@ -18,14 +18,9 @@ gh auth login
 
 Then download the latest `GHActionsBar-*.zip` from [Releases](https://github.com/drfarr/gh-actions-bar/releases), unzip it, and drag **GH Actions Bar.app** into Applications.
 
-### First launch (unsigned build)
+Signed with Developer ID and notarised by Apple, so it opens normally.
 
-This release isn't notarised by Apple yet, so macOS blocks it the first time. Do either:
-
-- **Terminal:** `xattr -dr com.apple.quarantine "/Applications/GH Actions Bar.app"`, then open it normally, **or**
-- Open it once, dismiss the warning, then go to **System Settings → Privacy & Security** and click **Open Anyway**.
-
-You only need to do this once. To start it at login: System Settings → General → Login Items → **+**.
+To start it at login: System Settings → General → Login Items → **+**.
 
 The app uses your existing `gh` login. It never stores a token itself.
 

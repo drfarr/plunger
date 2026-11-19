@@ -1,5 +1,6 @@
 #!/bin/sh
 # Builds "GH Actions Bar.app" next to this script. Pass --install to copy it to ~/Applications.
+# Override the bundle id with BUNDLE_ID=com.yourname.ghactionsbar ./build.sh
 set -e
 cd "$(dirname "$0")"
 APP="GH Actions Bar.app"
@@ -17,7 +18,7 @@ cat > "$APP/Contents/Info.plist" <<PLIST
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0"><dict>
   <key>CFBundleName</key><string>GH Actions Bar</string>
-  <key>CFBundleIdentifier</key><string>com.drfarr.ghactionsbar</string>
+  <key>CFBundleIdentifier</key><string>${BUNDLE_ID:-app.ghactionsbar}</string>
   <key>CFBundleExecutable</key><string>GHActionsBar</string>
   <key>CFBundlePackageType</key><string>APPL</string>
   <key>CFBundleShortVersionString</key><string>${VERSION:-0.1.0}</string>

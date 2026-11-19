@@ -16,7 +16,7 @@ brew install gh
 gh auth login
 ```
 
-Then download the latest `GHActionsBar-*.zip` from [Releases](https://github.com/drfarr/gh-actions-bar/releases), unzip it, and drag **GH Actions Bar.app** into Applications.
+Then download the latest `GHActionsBar-*.zip` from [Releases](../../releases/latest), unzip it, and drag **GH Actions Bar.app** into Applications.
 
 Signed with Developer ID and notarised by Apple, so it opens normally.
 
@@ -29,8 +29,8 @@ The app uses your existing `gh` login. It never stores a token itself.
 Only repos pushed in the last 14 days are polled (max 40), which keeps you well inside GitHub's API rate limit. To change that:
 
 ```sh
-defaults write com.drfarr.ghactionsbar days 30
-defaults write com.drfarr.ghactionsbar maxRepos 60
+defaults write app.ghactionsbar days 30
+defaults write app.ghactionsbar maxRepos 60
 ```
 
 Changes take effect on the next refresh.

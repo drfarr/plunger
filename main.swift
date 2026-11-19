@@ -3,8 +3,8 @@
 // Auth comes from the `gh` CLI (`gh auth login`), so no tokens live here.
 //
 // Settings (optional):
-//   defaults write com.drfarr.ghactionsbar days 14      # only repos pushed in the last N days
-//   defaults write com.drfarr.ghactionsbar maxRepos 40  # cap on repos polled
+//   defaults write app.ghactionsbar days 14      # only repos pushed in the last N days
+//   defaults write app.ghactionsbar maxRepos 40  # cap on repos polled
 
 import Cocoa
 

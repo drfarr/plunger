@@ -2,7 +2,7 @@
 
 A tiny macOS menu bar app that shows GitHub Actions status across **all** your repos: your own, ones you collaborate on, and every org you belong to.
 
-- 🔴 / 🟡 / 🟢 dot in the menu bar: anything failing, running (with a count), or all green
+- Coloured status icon in the menu bar: red cross if anything is failing, yellow arrows while running (with a count), green tick when all green
 - Dropdown lists repos with recent runs. Failing and running repos are listed first.
 - Hover a repo to see its latest run per workflow and branch. Click a run to open it on GitHub.
 - Refreshes every 60s, or every 15s while something is running. ⌘R refreshes now.

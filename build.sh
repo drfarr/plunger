@@ -1,9 +1,9 @@
 #!/bin/sh
-# Builds "GH Actions Bar.app" next to this script. Pass --install to copy it to ~/Applications.
-# Override the bundle id with BUNDLE_ID=com.yourname.ghactionsbar ./build.sh
+# Builds "Plunger.app" next to this script. Pass --install to copy it to ~/Applications.
+# Override the bundle id with BUNDLE_ID=com.yourname.plunger ./build.sh
 set -e
 cd "$(dirname "$0")"
-APP="GH Actions Bar.app"
+APP="Plunger.app"
 rm -rf "$APP"
 mkdir -p "$APP/Contents/MacOS"
 # Universal binary: Apple Silicon + Intel.
@@ -11,15 +11,15 @@ TMP=$(mktemp -d)
 for ARCH in arm64 x86_64; do
   swiftc -O -swift-version 5 -target "$ARCH-apple-macos13" main.swift -o "$TMP/$ARCH"
 done
-lipo -create "$TMP/arm64" "$TMP/x86_64" -output "$APP/Contents/MacOS/GHActionsBar"
+lipo -create "$TMP/arm64" "$TMP/x86_64" -output "$APP/Contents/MacOS/Plunger"
 rm -rf "$TMP"
 cat > "$APP/Contents/Info.plist" <<PLIST
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0"><dict>
-  <key>CFBundleName</key><string>GH Actions Bar</string>
-  <key>CFBundleIdentifier</key><string>${BUNDLE_ID:-app.ghactionsbar}</string>
-  <key>CFBundleExecutable</key><string>GHActionsBar</string>
+  <key>CFBundleName</key><string>Plunger</string>
+  <key>CFBundleIdentifier</key><string>${BUNDLE_ID:-app.plunger}</string>
+  <key>CFBundleExecutable</key><string>Plunger</string>
   <key>CFBundlePackageType</key><string>APPL</string>
   <key>CFBundleShortVersionString</key><string>${VERSION:-0.1.0}</string>
   <key>LSUIElement</key><true/>

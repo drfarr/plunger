@@ -1,4 +1,6 @@
-# GH Actions Bar
+# Plunger
+
+*For when your pipelines are clogged.*
 
 A tiny macOS menu bar app that shows GitHub Actions status across **all** your repos: your own, ones you collaborate on, and every org you belong to.
 
@@ -16,7 +18,7 @@ brew install gh
 gh auth login
 ```
 
-Then download the latest `GHActionsBar-*.zip` from [Releases](../../releases/latest), unzip it, and drag **GH Actions Bar.app** into Applications.
+Then download the latest `Plunger-*.zip` from [Releases](../../releases/latest), unzip it, and drag **Plunger.app** into Applications.
 
 Signed with Developer ID and notarised by Apple, so it opens normally.
 
@@ -41,8 +43,8 @@ Then press **⌘R** in the dropdown (Refresh Now) to pick up the new account imm
 Only repos pushed in the last 14 days are polled (max 40), which keeps you well inside GitHub's API rate limit. To change that:
 
 ```sh
-defaults write app.ghactionsbar days 30
-defaults write app.ghactionsbar maxRepos 60
+defaults write app.plunger days 30
+defaults write app.plunger maxRepos 60
 ```
 
 Changes take effect on the next refresh.
@@ -50,9 +52,9 @@ Changes take effect on the next refresh.
 ## Build from source
 
 ```sh
-./build.sh            # builds GH Actions Bar.app here
+./build.sh            # builds Plunger.app here
 ./build.sh --install  # also copies it to ~/Applications
 ./release.sh 0.1.0    # signs, notarises and zips a release (needs a Developer ID)
 # Unsigned release zip:
-./build.sh && ditto -c -k --keepParent "GH Actions Bar.app" GHActionsBar-0.1.0.zip
+./build.sh && ditto -c -k --keepParent "Plunger.app" Plunger-0.1.0.zip
 ```

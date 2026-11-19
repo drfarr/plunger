@@ -1,20 +1,20 @@
 #!/bin/sh
-# Builds, signs with Developer ID, notarises, staples and zips GH Actions Bar.
+# Builds, signs with Developer ID, notarises, staples and zips Plunger.
 #
 # One-time setup:
 #   1. Developer ID Application certificate in your login keychain
 #      (Xcode → Settings → Accounts → Manage Certificates → + → Developer ID Application)
 #   2. Notary credentials stored in the keychain:
-#        xcrun notarytool store-credentials gh-actions-bar --apple-id <you> --team-id <TEAMID>
+#        xcrun notarytool store-credentials plunger --apple-id <you> --team-id <TEAMID>
 #
 # Usage: ./release.sh 0.1.0
 set -e
 cd "$(dirname "$0")"
 
 VERSION="${1:?usage: ./release.sh <version>}"
-APP="GH Actions Bar.app"
-ZIP="GHActionsBar-$VERSION.zip"
-PROFILE="${NOTARY_PROFILE:-gh-actions-bar}"
+APP="Plunger.app"
+ZIP="Plunger-$VERSION.zip"
+PROFILE="${NOTARY_PROFILE:-plunger}"
 SIGN_ID="${SIGN_ID:-$(security find-identity -v -p codesigning | sed -n 's/.*"\(Developer ID Application:.*\)"/\1/p' | head -1)}"
 [ -n "$SIGN_ID" ] || { echo "No 'Developer ID Application' certificate found in keychain." >&2; exit 1; }
 

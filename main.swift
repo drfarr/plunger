@@ -1,10 +1,10 @@
-// GH Actions Bar — a macOS menu bar dropdown showing GitHub Actions status
+// Plunger — a macOS menu bar dropdown showing GitHub Actions status
 // across every repo you own, collaborate on, or can see through your orgs.
 // Auth comes from the `gh` CLI (`gh auth login`), so no tokens live here.
 //
 // Settings (optional):
-//   defaults write app.ghactionsbar days 14      # only repos pushed in the last N days
-//   defaults write app.ghactionsbar maxRepos 40  # cap on repos polled
+//   defaults write app.plunger days 14      # only repos pushed in the last N days
+//   defaults write app.plunger maxRepos 40  # cap on repos polled
 
 import Cocoa
 

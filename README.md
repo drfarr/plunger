@@ -24,6 +24,18 @@ To start it at login: System Settings → General → Login Items → **+**.
 
 The app uses your existing `gh` login. It never stores a token itself.
 
+## Switching GitHub account
+
+The app shows whichever account the `gh` CLI is signed into. To change it:
+
+```sh
+gh auth status   # see which account is active
+gh auth switch   # switch to another account you've already added
+gh auth login    # add a new account
+```
+
+Then press **⌘R** in the dropdown (Refresh Now) to pick up the new account immediately. Otherwise it switches within 10 minutes.
+
 ## Settings
 
 Only repos pushed in the last 14 days are polled (max 40), which keeps you well inside GitHub's API rate limit. To change that:
